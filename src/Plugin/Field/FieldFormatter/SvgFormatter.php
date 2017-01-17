@@ -45,18 +45,15 @@ class SvgFormatter extends FormatterBase {
       '#default_value' => $this->getSetting('apply_dimensions'),
     );
     $form['width'] = array(
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Image width.'),
       '#default_value' => $this->getSetting('width'),
-      '#element_validate' => array('element_validate_integer_positive'),
-      '#size' => 5,
     );
     $form['height'] = array(
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Image height.'),
       '#default_value' => $this->getSetting('height'),
       '#element_validate' => array('element_validate_integer_positive'),
-      '#size' => 5,
     );
     
     return $form;
