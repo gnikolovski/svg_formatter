@@ -2,8 +2,6 @@
 
 namespace Drupal\svg_formatter\Plugin\Field\FieldFormatter;
 
-use Drupal\Component\Utility\Html;
-use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -55,7 +53,7 @@ class SvgFormatter extends FormatterBase {
       '#default_value' => $this->getSetting('height'),
       '#element_validate' => array('element_validate_integer_positive'),
     );
-    
+
     return $form;
   }
 

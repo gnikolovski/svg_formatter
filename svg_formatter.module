@@ -33,7 +33,7 @@ function svg_formatter_theme() {
         'uri' => NULL,
         'apply_dimensions' => TRUE,
         'width' => 16,
-        'height' => 16
+        'height' => 16,
       ],
     ],
   ];
