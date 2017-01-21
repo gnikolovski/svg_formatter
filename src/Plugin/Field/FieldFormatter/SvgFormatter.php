@@ -11,7 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @FieldFormatter(
  *   id = "svg_formatter",
- *   label = @Translation("Svg formatter"),
+ *   label = @Translation("SVG formatter"),
  *   field_types = {
  *     "file"
  *   }
@@ -37,22 +37,22 @@ class SvgFormatter extends FormatterBase {
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $form = parent::settingsForm($form, $form_state);
 
-    $form['apply_dimensions'] = array(
+    $form['apply_dimensions'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Apply dimensions.'),
       '#default_value' => $this->getSetting('apply_dimensions'),
-    );
-    $form['width'] = array(
+    ];
+    $form['width'] = [
       '#type' => 'number',
       '#title' => $this->t('Image width.'),
       '#default_value' => $this->getSetting('width'),
-    );
-    $form['height'] = array(
+    ];
+    $form['height'] = [
       '#type' => 'number',
       '#title' => $this->t('Image height.'),
       '#default_value' => $this->getSetting('height'),
-      '#element_validate' => array('element_validate_integer_positive'),
-    );
+      '#element_validate' => ['element_validate_integer_positive'],
+    ];
 
     return $form;
   }
@@ -85,13 +85,13 @@ class SvgFormatter extends FormatterBase {
     foreach ($items as $delta => $item) {
       if ($item->entity) {
         $uri = $item->entity->getFileUri();
-        $elements[$delta] = array(
+        $elements[$delta] = [
           '#theme' => 'svg_formatter',
           '#uri' => $uri,
           '#apply_dimensions' => $apply_dimensions,
           '#width' => $width,
           '#height' => $height,
-        );
+        ];
       }
     }
 

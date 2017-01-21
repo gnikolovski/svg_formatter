@@ -6,7 +6,7 @@ Add SVG formatter to file field.
 
 1. Add file field to your content type and add svg to allowed file extensions
 settings.
-2. Go to the 'Manage display' and change field format to 'Svg formatter'.
+2. Go to the 'Manage display' and change field format to 'SVG formatter'.
 3. Set image dimensions if you want.
 
 ###AUTHOR
