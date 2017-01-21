@@ -101,6 +101,9 @@ class SvgFormatter extends FormatterBase {
     return $elements;
   }
 
+  /**
+   * Generate alt attribute from image filename.
+   */
   private function generateAltAttribute($filename) {
     $alt = str_replace(['.svg', '-', '_'], ['', ' ', ' '], $filename);
     $alt = ucfirst($alt);
