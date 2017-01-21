@@ -51,7 +51,6 @@ class SvgFormatter extends FormatterBase {
       '#type' => 'number',
       '#title' => $this->t('Image height.'),
       '#default_value' => $this->getSetting('height'),
-      '#element_validate' => ['element_validate_integer_positive'],
     ];
 
     return $form;
