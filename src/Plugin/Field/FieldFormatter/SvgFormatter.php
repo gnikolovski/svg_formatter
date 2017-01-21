@@ -85,9 +85,12 @@ class SvgFormatter extends FormatterBase {
     foreach ($items as $delta => $item) {
       if ($item->entity) {
         $uri = $item->entity->getFileUri();
+        $filename = $item->entity->getFilename();
+        $alt = $this->generateAltAttribute($filename);
         $elements[$delta] = [
           '#theme' => 'svg_formatter',
           '#uri' => $uri,
+          '#alt' => $alt,
           '#apply_dimensions' => $apply_dimensions,
           '#width' => $width,
           '#height' => $height,
@@ -96,6 +99,12 @@ class SvgFormatter extends FormatterBase {
     }
 
     return $elements;
+  }
+
+  private function generateAltAttribute($filename) {
+    $alt = str_replace(['.svg', '-', '_'], ['', ' ', ' '], $filename);
+    $alt = ucfirst($alt);
+    return $alt;
   }
 
 }

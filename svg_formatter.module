@@ -31,6 +31,7 @@ function svg_formatter_theme() {
     'svg_formatter' => [
       'variables' => [
         'uri' => NULL,
+        'alt' => NULL,
         'apply_dimensions' => TRUE,
         'width' => 16,
         'height' => 16,
