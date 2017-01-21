@@ -27,9 +27,14 @@ function svg_formatter_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_theme().
  */
 function svg_formatter_theme() {
-  return array(
-    'svg_formatter' => array(
-      'variables' => array('uri' => NULL, 'apply_dimensions' => TRUE, 'width' => 16, 'height' => 16),
-    ),
-  );
+  return [
+    'svg_formatter' => [
+      'variables' => [
+        'uri' => NULL,
+        'apply_dimensions' => TRUE,
+        'width' => 16,
+        'height' => 16
+      ],
+    ],
+  ];
 }
