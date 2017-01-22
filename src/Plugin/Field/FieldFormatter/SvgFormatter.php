@@ -26,8 +26,10 @@ class SvgFormatter extends FormatterBase {
     return [
       // Implement default settings.
       'apply_dimensions' => TRUE,
-      'width' => 16,
-      'height' => 16,
+      'width' => 25,
+      'height' => 25,
+      'enable_alt' => TRUE,
+      'enable_title' => TRUE,
     ] + parent::defaultSettings();
   }
 
@@ -52,6 +54,20 @@ class SvgFormatter extends FormatterBase {
       '#title' => $this->t('Image height.'),
       '#default_value' => $this->getSetting('height'),
     ];
+    $form['enable_alt'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable alt attribute.'),
+      '#default_value' => $this->getSetting('enable_alt'),
+    ];
+    $form['enable_title'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable title attribute.'),
+      '#default_value' => $this->getSetting('enable_title'),
+    ];
+    $form['notice'] = [
+      '#type' => 'markup',
+      '#markup' => '<div><small>' . $this->t('Alt and title attributes will be created from an image filename, by removing file extension and replacing underscores and dashes with spaces.') . '</small></div>',
+    ];
 
     return $form;
   }
@@ -68,6 +84,12 @@ class SvgFormatter extends FormatterBase {
     if ($this->getSetting('apply_dimensions') && $this->getSetting('width')) {
       $summary[] = $this->t('Image height:') . ' ' . $this->getSetting('height');
     }
+    if ($this->getSetting('enable_alt')) {
+      $summary[] = $this->t('Alt enabled');
+    }
+    if ($this->getSetting('enable_title')) {
+      $summary[] = $this->t('Title enabled');
+    }
 
     return $summary;
   }
@@ -77,22 +99,27 @@ class SvgFormatter extends FormatterBase {
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = [];
-    $apply_dimensions = $this->getSetting('apply_dimensions');
-    $width = $this->getSetting('width');
-    $height = $this->getSetting('height');
+    $attributes = [];
+    if ($this->getSetting('apply_dimensions')) {
+      $attributes['width'] = $this->getSetting('width');
+      $attributes['height'] = $this->getSetting('height');
+    }
 
     foreach ($items as $delta => $item) {
       if ($item->entity) {
-        $uri = $item->entity->getFileUri();
         $filename = $item->entity->getFilename();
         $alt = $this->generateAltAttribute($filename);
+        if ($this->getSetting('enable_alt')) {
+          $attributes['alt'] = $alt;
+        }
+        if ($this->getSetting('enable_title')) {
+          $attributes['title'] = $alt;
+        }
+        $uri = $item->entity->getFileUri();
         $elements[$delta] = [
           '#theme' => 'svg_formatter',
+          '#attributes' => $attributes,
           '#uri' => $uri,
-          '#alt' => $alt,
-          '#apply_dimensions' => $apply_dimensions,
-          '#width' => $width,
-          '#height' => $height,
         ];
       }
     }
@@ -101,7 +128,7 @@ class SvgFormatter extends FormatterBase {
   }
 
   /**
-   * Generate alt attribute from image filename.
+   * Generate alt attribute from an image filename.
    */
   private function generateAltAttribute($filename) {
     $alt = str_replace(['.svg', '-', '_'], ['', ' ', ' '], $filename);
