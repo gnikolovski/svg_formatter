@@ -66,7 +66,7 @@ class SvgFormatter extends FormatterBase {
     ];
     $form['notice'] = [
       '#type' => 'markup',
-      '#markup' => '<div><small>' . $this->t('Alt and title attributes will be created from an image filename, by removing file extension and replacing underscores and dashes with spaces.') . '</small></div>',
+      '#markup' => '<div><small>' . $this->t('Alt and title attributes will be created from an image filename, by removing file extension and eventual replacing underscores and dashes with spaces.') . '</small></div>',
     ];
 
     return $form;
