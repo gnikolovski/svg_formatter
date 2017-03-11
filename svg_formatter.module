@@ -30,8 +30,10 @@ function svg_formatter_theme() {
   return [
     'svg_formatter' => [
       'variables' => [
+        'inline' => FALSE,
         'attributes' => NULL,
         'uri' => NULL,
+        'svg_data' => NULL,
       ],
     ],
   ];

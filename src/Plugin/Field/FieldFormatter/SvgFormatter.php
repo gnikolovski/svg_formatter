@@ -25,6 +25,7 @@ class SvgFormatter extends FormatterBase {
   public static function defaultSettings() {
     return [
       // Implement default settings.
+      'inline' => FALSE,
       'apply_dimensions' => TRUE,
       'width' => 25,
       'height' => 25,
@@ -39,6 +40,12 @@ class SvgFormatter extends FormatterBase {
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $form = parent::settingsForm($form, $form_state);
 
+    $form['inline'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Output SVG inline'),
+      '#default_value' => $this->getSetting('inline'),
+      '#description' => $this->t('Check this option if you want to manipulate the SVG image with CSS and JavaScript.'),
+    ];
     $form['apply_dimensions'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Apply dimensions.'),
@@ -78,6 +85,9 @@ class SvgFormatter extends FormatterBase {
   public function settingsSummary() {
     $summary = [];
     // Implement settings summary.
+    if ($this->getSetting('inline')) {
+      $summary[] = $this->t('Inline SVG');
+    }
     if ($this->getSetting('apply_dimensions') && $this->getSetting('width')) {
       $summary[] = $this->t('Image width:') . ' ' . $this->getSetting('width');
     }
@@ -116,10 +126,24 @@ class SvgFormatter extends FormatterBase {
           $attributes['title'] = $alt;
         }
         $uri = $item->entity->getFileUri();
+
+        if ($this->getSetting('inline')) {
+          $svg_data = file_exists($uri) ? file_get_contents($uri) : $this->t('SVG image is missing');
+          if ($this->getSetting('apply_dimensions')) {
+            $dom = new \DomDocument();
+            $dom->loadXML($svg_data);
+            $dom->documentElement->setAttribute('height', $attributes['height']);
+            $dom->documentElement->setAttribute('width', $attributes['width']);
+            $svg_data = $dom->saveXML();
+          }
+        }
+
         $elements[$delta] = [
           '#theme' => 'svg_formatter',
+          '#inline' => $this->getSetting('inline') ? TRUE : FALSE,
           '#attributes' => $attributes,
-          '#uri' => $uri,
+          '#uri' => $this->getSetting('inline') ? NULL : $uri,
+          '#svg_data' => $this->getSetting('inline') ? $svg_data : NULL,
         ];
       }
     }
