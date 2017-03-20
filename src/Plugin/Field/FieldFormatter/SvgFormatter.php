@@ -135,7 +135,7 @@ class SvgFormatter extends FormatterBase {
             libxml_use_internal_errors(true);
             $dom->loadXML($svg_file);
             $svg_data = $dom->saveXML();
-            if ($this->getSetting('apply_dimensions') && $dom) {
+            if ($this->getSetting('apply_dimensions') && isset($dom->documentElement)) {
               $dom->documentElement->setAttribute('height', $attributes['height']);
               $dom->documentElement->setAttribute('width', $attributes['width']);
               $svg_data = $dom->saveXML();
