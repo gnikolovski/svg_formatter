@@ -128,13 +128,18 @@ class SvgFormatter extends FormatterBase {
         $uri = $item->entity->getFileUri();
 
         if ($this->getSetting('inline')) {
-          $svg_data = file_exists($uri) ? file_get_contents($uri) : $this->t('SVG image is missing');
-          if ($this->getSetting('apply_dimensions')) {
+          $svg_data = null;
+          $svg_file = file_exists($uri) ? file_get_contents($uri) : null;
+          if ($svg_file) {
             $dom = new \DomDocument();
-            $dom->loadXML($svg_data);
-            $dom->documentElement->setAttribute('height', $attributes['height']);
-            $dom->documentElement->setAttribute('width', $attributes['width']);
+            libxml_use_internal_errors(true);
+            $dom->loadXML($svg_file);
             $svg_data = $dom->saveXML();
+            if ($this->getSetting('apply_dimensions') && $dom) {
+              $dom->documentElement->setAttribute('height', $attributes['height']);
+              $dom->documentElement->setAttribute('width', $attributes['width']);
+              $svg_data = $dom->saveXML();
+            }
           }
         }
 
