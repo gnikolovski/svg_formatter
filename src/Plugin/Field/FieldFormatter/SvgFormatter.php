@@ -105,11 +105,21 @@ class SvgFormatter extends FormatterBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Enable alt attribute.'),
       '#default_value' => $this->getSetting('enable_alt'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][inline]"]' => ['checked' => FALSE],
+        ],
+      ],
     ];
     $form['enable_title'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable title attribute.'),
       '#default_value' => $this->getSetting('enable_title'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][inline]"]' => ['checked' => FALSE],
+        ],
+      ],
     ];
     $form['notice'] = [
       '#type' => 'markup',
