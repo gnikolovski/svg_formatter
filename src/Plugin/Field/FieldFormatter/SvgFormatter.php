@@ -144,10 +144,10 @@ class SvgFormatter extends FormatterBase {
     if ($this->getSetting('apply_dimensions') && $this->getSetting('width')) {
       $summary[] = $this->t('Image height:') . ' ' . $this->getSetting('height');
     }
-    if ($this->getSetting('enable_alt')) {
+    if ($this->getSetting('enable_alt') && !$this->getSetting('inline')) {
       $summary[] = $this->t('Alt enabled');
     }
-    if ($this->getSetting('enable_title')) {
+    if ($this->getSetting('enable_title') && !$this->getSetting('inline')) {
       $summary[] = $this->t('Title enabled');
     }
 
