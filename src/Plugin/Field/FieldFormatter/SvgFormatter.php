@@ -13,7 +13,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
  *
  * @FieldFormatter(
  *   id = "svg_formatter",
- *   label = @Translation("SVG image formatter"),
+ *   label = @Translation("SVG formatter"),
  *   field_types = {
  *     "file"
  *   }
