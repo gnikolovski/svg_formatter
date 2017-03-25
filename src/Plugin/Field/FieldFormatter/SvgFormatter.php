@@ -168,8 +168,8 @@ class SvgFormatter extends FormatterBase {
         $uri = $item->entity->getFileUri();
 
         if ($this->getSetting('inline')) {
-          $svg_data = null;
-          $svg_file = file_exists($uri) ? file_get_contents($uri) : null;
+          $svg_data = NULL;
+          $svg_file = file_exists($uri) ? file_get_contents($uri) : NULL;
           if ($svg_file) {
             $dom = new \DomDocument();
             libxml_use_internal_errors(true);
