@@ -28,9 +28,9 @@ None.
 
 ## USING THE MODULE
 
-1. Add file field to your content type or taxonomy vocabulary and add svg to
-allowed file extensions.
-2. Go to the 'Manage display' and change field format to 'SVG formatter'.
+1. Add a file field to your content type or taxonomy vocabulary and add svg to 
+the allowed file extensions.
+2. Go to the 'Manage display' and change the field format to 'SVG formatter'.
 3. Set image dimensions if you want and enable or disable attributes.
 
 ### AUTHOR
