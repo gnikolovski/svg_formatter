@@ -14,7 +14,8 @@ Standard image field in Drupal 8 doesn't support SVG images. If you really want
 to display SVG images on your website then you need another solution. This
 module adds a new formatter for the file field, which allows any file extension
 to be uploaded. In the formatter settings you can set default image size and 
-enable alt and title attributes.
+enable alt and title attributes. If you want to add some CSS and JavaScript 
+magic to your SVG images, then use inline SVG option.
 
 ## REQUIREMENTS
 
