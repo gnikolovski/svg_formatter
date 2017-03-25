@@ -5,19 +5,49 @@ namespace Drupal\svg_formatter\Plugin\Field\FieldFormatter;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
 
 /**
  * Plugin implementation of the 'svg_formatter' formatter.
  *
  * @FieldFormatter(
  *   id = "svg_formatter",
- *   label = @Translation("SVG formatter"),
+ *   label = @Translation("SVG image formatter"),
  *   field_types = {
  *     "file"
  *   }
  * )
  */
 class SvgFormatter extends FormatterBase {
+
+  /**
+   * The name of the field to which the formatter is associated.
+   */
+  protected $fieldName;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings) {
+    parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
+    $this->fieldName = $field_definition->getName();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $plugin_id,
+      $plugin_definition,
+      $configuration['field_definition'],
+      $configuration['settings'],
+      $configuration['label'],
+      $configuration['view_mode'],
+      $configuration['third_party_settings']
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -48,18 +78,28 @@ class SvgFormatter extends FormatterBase {
     ];
     $form['apply_dimensions'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Apply dimensions.'),
+      '#title' => $this->t('Set image dimensions.'),
       '#default_value' => $this->getSetting('apply_dimensions'),
     ];
     $form['width'] = [
       '#type' => 'number',
       '#title' => $this->t('Image width.'),
       '#default_value' => $this->getSetting('width'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][apply_dimensions]"]' => ['checked' => true],
+        ],
+      ],
     ];
     $form['height'] = [
       '#type' => 'number',
       '#title' => $this->t('Image height.'),
       '#default_value' => $this->getSetting('height'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][apply_dimensions]"]' => ['checked' => true],
+        ],
+      ],
     ];
     $form['enable_alt'] = [
       '#type' => 'checkbox',
