@@ -1,5 +1,5 @@
 name: SVG formatter
 type: module
-description: Add SVG formatter to file field.
+description: 'Add SVG image formatter to a file field.'
 core: 8.x
 package: Field types
