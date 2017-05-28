@@ -23,6 +23,7 @@ class SvgFormatter extends FormatterBase {
 
   /**
    * The name of the field to which the formatter is associated.
+   * @var string
    */
   protected $fieldName;
 
@@ -87,7 +88,7 @@ class SvgFormatter extends FormatterBase {
       '#default_value' => $this->getSetting('width'),
       '#states' => [
         'visible' => [
-          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][apply_dimensions]"]' => ['checked' => true],
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][apply_dimensions]"]' => ['checked' => TRUE],
         ],
       ],
     ];
@@ -97,7 +98,7 @@ class SvgFormatter extends FormatterBase {
       '#default_value' => $this->getSetting('height'),
       '#states' => [
         'visible' => [
-          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][apply_dimensions]"]' => ['checked' => true],
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][apply_dimensions]"]' => ['checked' => TRUE],
         ],
       ],
     ];
@@ -182,7 +183,7 @@ class SvgFormatter extends FormatterBase {
           $svg_file = file_exists($uri) ? file_get_contents($uri) : NULL;
           if ($svg_file) {
             $dom = new \DomDocument();
-            libxml_use_internal_errors(true);
+            libxml_use_internal_errors(TRUE);
             $dom->loadXML($svg_file);
             $svg_data = $dom->saveXML();
             if ($this->getSetting('apply_dimensions') && isset($dom->documentElement)) {
