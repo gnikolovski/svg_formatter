@@ -23,6 +23,7 @@ class SvgFormatter extends FormatterBase {
 
   /**
    * The name of the field to which the formatter is associated.
+   *
    * @var string
    */
   protected $fieldName;
