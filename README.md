@@ -1,4 +1,4 @@
-# SVG formatter
+# SVG Formatter
 
 ## CONTENTS OF THIS FILE
 
@@ -24,13 +24,13 @@ None.
 ## INSTALLATION
 
 1. Install module as usual via Drupal UI, Drush or Composer.
-2. Go to "Extend" and enable the SVG formatter module.
+2. Go to "Extend" and enable the SVG Formatter module.
 
 ## USING THE MODULE
 
 1. Add a file field to your content type or taxonomy vocabulary and add svg to 
 the allowed file extensions.
-2. Go to the 'Manage display' and change the field format to 'SVG formatter'.
+2. Go to the 'Manage display' and change the field format to 'SVG Formatter'.
 3. Set image dimensions if you want and enable or disable attributes.
 
 ### AUTHOR

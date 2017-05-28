@@ -1,6 +1,6 @@
 {
     "name": "drupal/svg_formatter",
-    "description": "Add SVG image formatter to a file field.",
+    "description": "Add SVG image formatter to file field.",
     "type": "drupal-module",
     "homepage": "https://www.drupal.org/project/svg_formatter",
     "authors": [

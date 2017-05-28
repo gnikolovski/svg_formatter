@@ -57,8 +57,8 @@ class SvgFormatter extends FormatterBase {
       // Implement default settings.
       'inline' => FALSE,
       'apply_dimensions' => TRUE,
-      'width' => 25,
-      'height' => 25,
+      'width' => 100,
+      'height' => 100,
       'enable_alt' => TRUE,
       'enable_title' => TRUE,
     ] + parent::defaultSettings();

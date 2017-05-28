@@ -16,7 +16,7 @@ function svg_formatter_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.svg_formatter':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Add SVG image formatter to a file field.') . '</p>';
+      $output .= '<p>' . t('Add SVG image formatter to file field.') . '</p>';
       return $output;
 
     default:
@@ -31,9 +31,9 @@ function svg_formatter_theme() {
     'svg_formatter' => [
       'variables' => [
         'inline' => FALSE,
+        'svg_data' => NULL,
         'attributes' => NULL,
         'uri' => NULL,
-        'svg_data' => NULL,
       ],
     ],
   ];
