@@ -5,6 +5,9 @@ field.formatter.settings.svg_formatter:
     inline:
       type: boolean
       label: Inline
+    sanitize:
+      type: boolean
+      label: Sanitize
     apply_dimensions:
       type: boolean
       label: Apply dimensions

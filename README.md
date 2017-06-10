@@ -6,6 +6,7 @@
   * Requirements
   * Installation
   * Using the module
+  * Security
   * Author
 
 ## INTRODUCTION
@@ -32,6 +33,18 @@ None.
 the allowed file extensions.
 2. Go to the 'Manage display' and change the field format to 'SVG Formatter'.
 3. Set image dimensions if you want and enable or disable attributes.
+
+## SECURITY
+
+If your web site displays inline SVG images submitted by an external party, you 
+must know that this is a security risk and a potential attack vector. To prevent 
+any possible attacks, you should install the following library with the Composer
+
+```
+https://packagist.org/packages/enshrined/svg-sanitize
+```
+
+and then enable the 'Sanitize inline SVG' option in the field settings.
 
 ### AUTHOR
 

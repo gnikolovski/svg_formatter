@@ -58,6 +58,7 @@ class SvgFormatter extends FormatterBase {
     return [
       // Implement default settings.
       'inline' => FALSE,
+      'sanitize' => FALSE,
       'apply_dimensions' => TRUE,
       'width' => 100,
       'height' => 100,
@@ -77,6 +78,19 @@ class SvgFormatter extends FormatterBase {
       '#title' => $this->t('Output SVG inline'),
       '#default_value' => $this->getSetting('inline'),
       '#description' => $this->t('Check this option if you want to manipulate the SVG image with CSS and JavaScript.'),
+    ];
+    $sanitize_attributes = $this->isSanitizerInstalled() ? [] : ['disabled' => 'disabled'];
+    $form['sanitize'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Sanitize inline SVG'),
+      '#default_value' => $this->getSetting('sanitize'),
+      '#description' => $this->t('For this to work you must install "enshrined/svg-sanitize" library with composer.'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][inline]"]' => ['checked' => TRUE],
+        ],
+      ],
+      '#attributes' => $sanitize_attributes,
     ];
     $form['apply_dimensions'] = [
       '#type' => 'checkbox',
@@ -140,6 +154,9 @@ class SvgFormatter extends FormatterBase {
     if ($this->getSetting('inline')) {
       $summary[] = $this->t('Inline SVG');
     }
+    if ($this->getSetting('sanitize')) {
+      $summary[] = $this->t('Sanitize inline SVG');
+    }
     if ($this->getSetting('apply_dimensions') && $this->getSetting('width')) {
       $summary[] = $this->t('Image width:') . ' ' . $this->getSetting('width');
     }
@@ -182,6 +199,16 @@ class SvgFormatter extends FormatterBase {
         if ($this->getSetting('inline')) {
           $svg_data = NULL;
           $svg_file = file_exists($uri) ? file_get_contents($uri) : NULL;
+
+          // Sanitize inline SVG if sanitizing library is installed.
+          if ($svg_file &&
+            $this->isSanitizerInstalled() &&
+            $this->getSetting('sanitize')
+          ) {
+            $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+            $svg_file = $sanitizer->sanitize($svg_file);
+          }
+
           if ($svg_file) {
             $dom = new \DomDocument();
             libxml_use_internal_errors(TRUE);
@@ -211,10 +238,18 @@ class SvgFormatter extends FormatterBase {
   /**
    * Generate alt attribute from an image filename.
    */
-  private function generateAltAttribute($filename) {
+  protected function generateAltAttribute($filename) {
     $alt = str_replace(['.svg', '-', '_'], ['', ' ', ' '], $filename);
     $alt = ucfirst($alt);
     return $alt;
+  }
+
+  /**
+   * Check if "enshrined/svg-sanitize" library is installed.
+   * https://packagist.org/packages/enshrined/svg-sanitize
+   */
+  protected function isSanitizerInstalled() {
+    return class_exists('\enshrined\svgSanitize\Sanitizer');
   }
 
 }
