@@ -1,5 +1,5 @@
 name: SVG Formatter
+description: 'SVG formatter provides support for using SVG images on your website.'
 type: module
-description: 'Add SVG image formatter to file field.'
 core: 8.x
 package: Field types
