@@ -17,5 +17,7 @@
     },
     "license": "GPL-2.0+",
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "enshrined/svg-sanitize": "^0.8.2"
+    }
 }

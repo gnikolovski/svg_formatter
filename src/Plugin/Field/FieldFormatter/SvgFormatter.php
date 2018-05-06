@@ -58,7 +58,7 @@ class SvgFormatter extends FormatterBase {
     return [
       // Implement default settings.
       'inline' => FALSE,
-      'sanitize' => FALSE,
+      'sanitize' => TRUE,
       'apply_dimensions' => TRUE,
       'width' => 100,
       'height' => 100,

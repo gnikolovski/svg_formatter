@@ -36,15 +36,10 @@ the allowed file extensions.
 
 ## SECURITY
 
-If your web site displays inline SVG images submitted by an external party, you 
-must know that this is a security risk and a potential attack vector. To prevent 
-any possible attacks, you should install the following library with the Composer
-
-```
-https://packagist.org/packages/enshrined/svg-sanitize
-```
-
-and then enable the 'Sanitize inline SVG' option in the field settings.
+Please make sure that library 'enshrined/svg-sanitize' that is required in the
+composer.json file is installed, because otherwise your site may be vulnerable.
+If you allow users to upload SVG images and use inline SVG output mode, users
+may exploit XSS vulnerability.
 
 ### AUTHOR
 
