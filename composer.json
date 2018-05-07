@@ -1,6 +1,6 @@
 {
     "name": "drupal/svg_formatter",
-    "description": "SVG formatter provides support for using SVG images on your website.",
+    "description": "SVG Formatter provides support for using SVG images on your website.",
     "type": "drupal-module",
     "homepage": "https://www.drupal.org/project/svg_formatter",
     "authors": [

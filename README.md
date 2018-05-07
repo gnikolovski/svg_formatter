@@ -11,12 +11,14 @@
 
 ## INTRODUCTION
 
+SVG Formatter module provides support for using SVG images on your website.
+
 Standard image field in Drupal 8 doesn't support SVG images. If you really want
 to display SVG images on your website then you need another solution. This
 module adds a new formatter for the file field, which allows files with any 
 extension to be uploaded. In the formatter settings you can set default image 
 size and enable alt and title attributes. If you want to add some CSS and 
-JavaScript magic to your SVG images, then use inline SVG option.
+Javascript magic to your SVG images, then use inline SVG option.
 
 ## REQUIREMENTS
 
@@ -42,6 +44,9 @@ drush en svg_formatter -y
 svg to the allowed file extensions.
 2. Go to the 'Manage display' and change the field format to 'SVG Formatter'.
 3. Set image dimensions if you want and enable or disable attributes.
+
+Blog post describing how to use the module:  
+https://gorannikolovski.com/drupal-8-and-svg-images
 
 ## SECURITY
 
