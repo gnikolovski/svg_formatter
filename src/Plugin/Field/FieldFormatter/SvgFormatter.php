@@ -2,18 +2,18 @@
 
 namespace Drupal\svg_formatter\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Field\FieldDefinitionInterface;
 
 /**
  * Plugin implementation of the 'svg_formatter' formatter.
  *
  * @FieldFormatter(
  *   id = "svg_formatter",
- *   label = @Translation("SVG formatter"),
+ *   label = @Translation("SVG Formatter"),
  *   field_types = {
  *     "file"
  *   }
@@ -33,6 +33,7 @@ class SvgFormatter extends FormatterBase {
    */
   public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
+
     $this->fieldName = $field_definition->getName();
   }
 
@@ -56,7 +57,6 @@ class SvgFormatter extends FormatterBase {
    */
   public static function defaultSettings() {
     return [
-      // Implement default settings.
       'inline' => FALSE,
       'sanitize' => TRUE,
       'apply_dimensions' => TRUE,
@@ -77,7 +77,7 @@ class SvgFormatter extends FormatterBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Output SVG inline'),
       '#default_value' => $this->getSetting('inline'),
-      '#description' => $this->t('Check this option if you want to manipulate the SVG image with CSS and JavaScript.'),
+      '#description' => $this->t('Check this option if you want to manipulate the SVG image with CSS and Javascript.'),
     ];
     $sanitize_attributes = $this->isSanitizerInstalled() ? [] : ['disabled' => 'disabled'];
     $form['sanitize'] = [
@@ -139,7 +139,7 @@ class SvgFormatter extends FormatterBase {
     ];
     $form['notice'] = [
       '#type' => 'markup',
-      '#markup' => '<div><small>' . $this->t('Alt and title attributes will be created from an image filename by removing file extension and replacing eventual underscores and dashes with spaces.') . '</small></div>',
+      '#markup' => '<div><small>' . $this->t('Alt and title attributes will be created from the image filename by removing file extension and replacing eventual underscores and dashes with spaces.') . '</small></div>',
     ];
 
     return $form;
