@@ -236,17 +236,17 @@ class SvgFormatter extends FormatterBase {
   }
 
   /**
-   * Generate alt attribute from an image filename.
+   * Generates alt attribute from an image filename.
    */
   protected function generateAltAttribute($filename) {
     $alt = str_replace(['.svg', '-', '_'], ['', ' ', ' '], $filename);
     $alt = ucfirst($alt);
+
     return $alt;
   }
 
   /**
-   * Check if "enshrined/svg-sanitize" library is installed.
-   * https://packagist.org/packages/enshrined/svg-sanitize
+   * Checks if "enshrined/svg-sanitize" library is installed.
    */
   protected function isSanitizerInstalled() {
     return class_exists('\enshrined\svgSanitize\Sanitizer');
