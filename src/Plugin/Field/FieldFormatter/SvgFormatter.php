@@ -187,6 +187,11 @@ class SvgFormatter extends FormatterBase {
 
     foreach ($items as $delta => $item) {
       if ($item->entity) {
+        // Skip if this is not a SVG image.
+        if ($item->entity->getMimeType() !== 'image/svg+xml') {
+          continue;
+        }
+
         $filename = $item->entity->getFilename();
         $alt = $this->generateAltAttribute($filename);
         if ($this->getSetting('enable_alt')) {
