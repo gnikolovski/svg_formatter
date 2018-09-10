@@ -5,7 +5,7 @@
   * Introduction
   * Requirements
   * Installation
-  * Using the module
+  * Configuration
   * Security
   * Author
 
@@ -38,7 +38,7 @@ and then enable it with Drush:
 drush en svg_formatter -y
 ```
 
-## USING THE MODULE
+## CONFIGURATION
 
 1. Add a file field to your content type, taxonomy or any other entity and add 
 svg to the allowed file extensions.
