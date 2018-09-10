@@ -6,6 +6,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use enshrined\svgSanitize\Sanitizer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -205,7 +206,7 @@ class SvgFormatter extends FormatterBase {
             $this->isSanitizerInstalled() &&
             $this->getSetting('sanitize')
           ) {
-            $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+            $sanitizer = new Sanitizer();
             $svg_file = $sanitizer->sanitize($svg_file);
           }
 
