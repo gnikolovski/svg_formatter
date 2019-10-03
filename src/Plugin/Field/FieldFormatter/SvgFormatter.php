@@ -290,8 +290,8 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
         }
         $uri = $item->entity->getFileUri();
 
+        $svg_data = NULL;
         if ($this->getSetting('inline')) {
-          $svg_data = NULL;
           $svg_file = file_exists($uri) ? file_get_contents($uri) : NULL;
 
           // Sanitize inline SVG if sanitizing library is installed.
