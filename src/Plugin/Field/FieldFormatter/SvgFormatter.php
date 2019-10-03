@@ -304,7 +304,7 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
           }
 
           if ($svg_file) {
-            $dom = new \DomDocument();
+            $dom = new \DOMDocument();
             libxml_use_internal_errors(TRUE);
             $dom->loadXML($svg_file);
             $svg_data = $dom->saveXML();
