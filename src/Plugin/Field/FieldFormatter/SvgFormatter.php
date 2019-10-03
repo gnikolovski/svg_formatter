@@ -200,10 +200,6 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
         '#token_types' => [$this->fieldDefinition->getTargetEntityTypeId(), 'file'],
       ];
     }
-    $form['notice'] = [
-      '#type' => 'markup',
-      '#markup' => '<div><small>' . $this->t('Alt and title attributes will be created from the image filename by removing file extension and replacing eventual underscores and dashes with spaces.') . '</small></div>',
-    ];
 
     return $form;
   }
