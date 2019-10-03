@@ -20,6 +20,12 @@ field.formatter.settings.svg_formatter:
     enable_alt:
       type: boolean
       label: Enable alt attribute
+    alt_string:
+      type: string
+      label: String or token(s) used for alt text for the image
     enable_title:
       type: boolean
       label: Enable title attribute
+    title_string:
+      type: string
+      label: String or token(s) used for the title of the image

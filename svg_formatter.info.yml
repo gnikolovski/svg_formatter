@@ -3,3 +3,5 @@ description: 'SVG Formatter provides support for using SVG images on your websit
 type: module
 core: 8.x
 package: Field types
+test_dependencies:
+  - token:token

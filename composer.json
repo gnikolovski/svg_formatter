@@ -19,5 +19,8 @@
     "minimum-stability": "dev",
     "require": {
         "enshrined/svg-sanitize": "^0.8.2"
+    },
+    "require-dev": {
+       "drupal/token": "^1.0"
     }
 }

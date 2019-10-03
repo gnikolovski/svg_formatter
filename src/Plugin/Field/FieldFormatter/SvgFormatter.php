@@ -2,10 +2,14 @@
 
 namespace Drupal\svg_formatter\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Utility\Token;
 use enshrined\svgSanitize\Sanitizer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   }
  * )
  */
-class SvgFormatter extends FormatterBase {
+class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterface {
 
   /**
    * The name of the field to which the formatter is associated.
@@ -30,12 +34,36 @@ class SvgFormatter extends FormatterBase {
   protected $fieldName;
 
   /**
+   * Module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * Token service.
+   *
+   * @var \Drupal\Core\Utility\Token
+   */
+  protected $token;
+
+  /**
+   * The entity repository.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected $entityRepository;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, ModuleHandlerInterface $module_handler, Token $token, EntityRepositoryInterface $entity_repository) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
 
     $this->fieldName = $field_definition->getName();
+    $this->moduleHandler = $module_handler;
+    $this->token = $token;
+    $this->entityRepository = $entity_repository;
   }
 
   /**
@@ -49,7 +77,10 @@ class SvgFormatter extends FormatterBase {
       $configuration['settings'],
       $configuration['label'],
       $configuration['view_mode'],
-      $configuration['third_party_settings']
+      $configuration['third_party_settings'],
+      $container->get('module_handler'),
+      $container->get('token'),
+      $container->get('entity.repository')
     );
   }
 
@@ -64,7 +95,9 @@ class SvgFormatter extends FormatterBase {
       'width' => 100,
       'height' => 100,
       'enable_alt' => TRUE,
+      'alt_string' => '',
       'enable_title' => TRUE,
+      'title_string' => '',
     ] + parent::defaultSettings();
   }
 
@@ -73,6 +106,7 @@ class SvgFormatter extends FormatterBase {
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $form = parent::settingsForm($form, $form_state);
+    $token_module = $this->moduleHandler->moduleExists('token');
 
     $form['inline'] = [
       '#type' => 'checkbox',
@@ -128,6 +162,17 @@ class SvgFormatter extends FormatterBase {
         ],
       ],
     ];
+    $form['alt_string'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Token with alt value'),
+      '#description' => ($token_module) ? $this->t('Use the token help link below to select the token.') : $this->t('Install token module to see available tokens.'),
+      '#default_value' => $this->getSetting('alt_string'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][enable_alt]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
     $form['enable_title'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable title attribute.'),
@@ -138,6 +183,23 @@ class SvgFormatter extends FormatterBase {
         ],
       ],
     ];
+    $form['title_string'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Token with title value'),
+      '#description' => ($token_module) ? $this->t('Use the token help link below to select the token.') : $this->t('Install token module to see available tokens.'),
+      '#default_value' => $this->getSetting('title_string'),
+      '#states' => [
+        'visible' => [
+          ':input[name="fields[' . $this->fieldName . '][settings_edit_form][settings][enable_title]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+    if ($this->moduleHandler->moduleExists('token')) {
+      $form['token_help'] = [
+        '#theme' => 'token_tree_link',
+        '#token_types' => [$this->fieldDefinition->getTargetEntityTypeId(), 'file'],
+      ];
+    }
     $form['notice'] = [
       '#type' => 'markup',
       '#markup' => '<div><small>' . $this->t('Alt and title attributes will be created from the image filename by removing file extension and replacing eventual underscores and dashes with spaces.') . '</small></div>',
@@ -166,9 +228,16 @@ class SvgFormatter extends FormatterBase {
     }
     if ($this->getSetting('enable_alt') && !$this->getSetting('inline')) {
       $summary[] = $this->t('Alt enabled');
+      if ($this->getSetting('alt_string')) {
+        $summary[] = $this->t('Alt token:') . ' ' . $this->getSetting('alt_string');
+      }
     }
     if ($this->getSetting('enable_title') && !$this->getSetting('inline')) {
       $summary[] = $this->t('Title enabled');
+
+      if ($this->getSetting('title_string')) {
+        $summary[] = $this->t('Title token:') . ' ' . $this->getSetting('title_string');
+      }
     }
 
     return $summary;
@@ -187,18 +256,41 @@ class SvgFormatter extends FormatterBase {
 
     foreach ($items as $delta => $item) {
       if ($item->entity) {
+        $file = $item->entity;
+        $parent = $items->getParent()->getEntity();
+
         // Skip if this is not a SVG image.
         if ($item->entity->getMimeType() !== 'image/svg+xml') {
           continue;
         }
 
         $filename = $item->entity->getFilename();
-        $alt = $this->generateAltAttribute($filename);
+        $default_alt = $this->generateAltAttribute($filename);
+        $token_data = [
+          'file' => $this->entityRepository->getTranslationFromContext($file),
+          $parent->getEntityTypeId() => $this->entityRepository->getTranslationFromContext($parent),
+        ];
+        $replace_options = ['clear' => TRUE];
+
         if ($this->getSetting('enable_alt')) {
-          $attributes['alt'] = $alt;
+          if ($this->getSetting('alt_string')) {
+            if ($alt = $this->token->replace($this->getSetting('alt_string'), $token_data, $replace_options)) {
+              $attributes['alt'] = $alt;
+            }
+          }
+          else {
+            $attributes['alt'] = $default_alt;
+          }
         }
         if ($this->getSetting('enable_title')) {
-          $attributes['title'] = $alt;
+          if ($this->getSetting('title_string')) {
+            if ($title = $this->token->replace($this->getSetting('title_string'), $token_data, $replace_options)) {
+              $attributes['title'] = $title;
+            }
+          }
+          else {
+            $attributes['title'] = $default_alt;
+          }
         }
         $uri = $item->entity->getFileUri();
 
