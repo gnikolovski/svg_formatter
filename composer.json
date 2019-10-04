@@ -6,8 +6,8 @@
     "authors": [
         {
             "name": "Goran Nikolovski",
-            "email": "nikolovski84@gmail.com",
-            "homepage": "http://gorannikolovski.com",
+            "email": "goran@gorannikolovski.com",
+            "homepage": "https://gorannikolovski.com",
             "role": "Developer"
         }
     ],
@@ -18,7 +18,7 @@
     "license": "GPL-2.0+",
     "minimum-stability": "dev",
     "require": {
-        "enshrined/svg-sanitize": "^0.8.2"
+        "enshrined/svg-sanitize": "^0.10.0"
     },
     "require-dev": {
        "drupal/token": "^1.0"
