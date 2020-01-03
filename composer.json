@@ -18,7 +18,8 @@
     "license": "GPL-2.0+",
     "minimum-stability": "dev",
     "require": {
-        "enshrined/svg-sanitize": "^0.10.0"
+        "enshrined/svg-sanitize": "^0.10.0",
+        "drupal/core": "^8 || ^9"
     },
     "require-dev": {
        "drupal/token": "^1.0"

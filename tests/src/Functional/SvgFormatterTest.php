@@ -37,6 +37,11 @@ class SvgFormatterTest extends BrowserTestBase {
   ];
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'classy';
+
+  /**
    * Default testing media type.
    *
    * @var \Drupal\media\MediaTypeInterface
