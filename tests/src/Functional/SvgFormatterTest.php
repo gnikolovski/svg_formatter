@@ -39,7 +39,7 @@ class SvgFormatterTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'classy';
+  protected $defaultTheme = 'stable';
 
   /**
    * Default testing media type.
