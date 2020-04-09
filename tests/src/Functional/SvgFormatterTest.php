@@ -39,7 +39,7 @@ class SvgFormatterTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'stable';
+  protected $defaultTheme = 'stark';
 
   /**
    * Default testing media type.
@@ -253,16 +253,16 @@ class SvgFormatterTest extends BrowserTestBase {
     $display->setComponent('field_media_file', $component)->save();
 
     $this->drupalGet('media/1');
-    $this->assertSession()->elementAttributeContains('css', '.field--name-field-media-file img', 'alt', 'thisisthealttext');
-    $this->assertSession()->elementAttributeContains('css', '.field--name-field-media-file img', 'title', 'thisisthetitletext');
+    $this->assertSession()->elementAttributeContains('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img', 'alt', 'thisisthealttext');
+    $this->assertSession()->elementAttributeContains('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img', 'title', 'thisisthetitletext');
 
     $media->set('field_alt_string', NULL);
     $media->set('field_title_string', NULL);
     $media->save();
 
     $this->drupalGet('media/1');
-    $this->assertFalse($this->assertSession()->elementExists('css', '.field--name-field-media-file img')->hasAttribute('alt'));
-    $this->assertFalse($this->assertSession()->elementExists('css', '.field--name-field-media-file img')->hasAttribute('title'));
+    $this->assertFalse($this->assertSession()->elementExists('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img')->hasAttribute('alt'));
+    $this->assertFalse($this->assertSession()->elementExists('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img')->hasAttribute('title'));
   }
 
   /**
@@ -291,8 +291,8 @@ class SvgFormatterTest extends BrowserTestBase {
     $display->setComponent('field_media_file', $component)->save();
 
     $this->drupalGet('media/1');
-    $this->assertSession()->elementAttributeContains('css', '.field--name-field-media-file img', 'width', '99');
-    $this->assertSession()->elementAttributeContains('css', '.field--name-field-media-file img', 'height', '99');
+    $this->assertSession()->elementAttributeContains('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img', 'width', '99');
+    $this->assertSession()->elementAttributeContains('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img', 'height', '99');
 
     // Test that image attributes don't exist if apply_dimensions is disabled.
     $component['settings'] = [
@@ -309,8 +309,8 @@ class SvgFormatterTest extends BrowserTestBase {
     $display->setComponent('field_media_file', $component)->save();
 
     $this->drupalGet('media/1');
-    $this->assertSession()->elementNotExists('css', '.field--name-field-media-file img[width]');
-    $this->assertSession()->elementNotExists('css', '.field--name-field-media-file img[height]');
+    $this->assertSession()->elementNotExists('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img[width]');
+    $this->assertSession()->elementNotExists('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img[height]');
   }
 
 }
