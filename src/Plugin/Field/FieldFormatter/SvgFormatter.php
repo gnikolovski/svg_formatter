@@ -20,7 +20,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "svg_formatter",
  *   label = @Translation("SVG Formatter"),
  *   field_types = {
- *     "file"
+ *     "file",
+ *     "image"
  *   }
  * )
  */
@@ -344,6 +345,23 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
    */
   protected function isSanitizerInstalled() {
     return class_exists('\enshrined\svgSanitize\Sanitizer');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function isApplicable(FieldDefinitionInterface $field_definition) {
+    if ($field_definition->getType() == 'image') {
+      $module_handler = \Drupal::service('module_handler');
+      if ($module_handler->moduleExists('svg_image')) {
+        return TRUE;
+      }
+      else {
+        return FALSE;
+      }
+    }
+
+    return TRUE;
   }
 
 }
