@@ -149,6 +149,35 @@ class SvgFormatterTest extends BrowserTestBase {
   }
 
   /**
+   * Tests non-inline image output.
+   */
+  public function testNonInlineImageOutput() {
+    $media = $this->createMediaEntity();
+    $media->save();
+
+    $display = $this->container->get('entity_type.manager')
+      ->getStorage('entity_view_display')
+      ->load('media.svg.default');
+
+    $component = $display->getComponent('field_media_file');
+    $component['settings'] = [
+      'inline' => FALSE,
+      'sanitize' => FALSE,
+      'apply_dimensions' => FALSE,
+      'width' => 100,
+      'height' => 100,
+      'enable_alt' => TRUE,
+      'alt_string' => '',
+      'enable_title' => TRUE,
+      'title_string' => '',
+    ];
+    $display->setComponent('field_media_file', $component)->save();
+
+    $this->drupalGet('media/1');
+    $this->assertSession()->elementAttributeContains('css', 'main > div > div > div:nth-child(3) > div:nth-child(4) > div:nth-child(2) > img', 'src', $media->get('field_media_file')->entity->getFilename());
+  }
+
+  /**
    * Tests inline image output.
    */
   public function testInlineImageOutput() {
@@ -175,6 +204,35 @@ class SvgFormatterTest extends BrowserTestBase {
 
     $this->drupalGet('media/1');
     $this->assertSession()->responseContains(self::SVG_DATA);
+  }
+
+  /**
+   * Tests inline image output without sanitization.
+   */
+  public function testWithoutSanitization() {
+    $media = $this->createMediaEntity();
+    $media->save();
+
+    $display = $this->container->get('entity_type.manager')
+      ->getStorage('entity_view_display')
+      ->load('media.svg.default');
+
+    $component = $display->getComponent('field_media_file');
+    $component['settings'] = [
+      'inline' => TRUE,
+      'sanitize' => FALSE,
+      'apply_dimensions' => FALSE,
+      'width' => 100,
+      'height' => 100,
+      'enable_alt' => TRUE,
+      'alt_string' => '',
+      'enable_title' => TRUE,
+      'title_string' => '',
+    ];
+    $display->setComponent('field_media_file', $component)->save();
+
+    $this->drupalGet('media/1');
+    $this->assertSession()->responseContains('alert("attack");');
   }
 
   /**
