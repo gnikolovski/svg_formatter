@@ -308,12 +308,18 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
             $dom = new \DOMDocument();
             libxml_use_internal_errors(TRUE);
             $dom->loadXML($svg_file);
-            $svg_data = $dom->saveXML();
             if ($this->getSetting('apply_dimensions') && isset($dom->documentElement)) {
               $dom->documentElement->setAttribute('height', $attributes['height']);
               $dom->documentElement->setAttribute('width', $attributes['width']);
-              $svg_data = $dom->saveXML();
             }
+            if ($this->getSetting('enable_title') && isset($dom->documentElement)) {
+              $title = $dom->createElement('title', $attributes['title']);
+              $title_id = $this->fieldName . '__title-' . $delta;
+              $title->setAttribute('id', $title_id);
+              $dom->documentElement->insertBefore($title, $dom->documentElement->firstChild);
+              $dom->documentElement->setAttribute('aria-labelledby', $title_id);
+            }
+            $svg_data = $dom->saveXML();
           }
         }
 
