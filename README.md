@@ -13,12 +13,12 @@ INTRODUCTION
 
 SVG Formatter module provides support for using SVG images on your website.
 
-Standard image field in Drupal 8 doesn't support SVG images. If you really want
-to display SVG images on your website then you need another solution. This
+The standard image field in Drupal 8 doesn't support SVG images. If you really
+want to display SVG images on your website then you need another solution. This
 module adds a new formatter for the file field, which allows files with any
-extension to be uploaded. In the formatter settings you can set default image
-size and enable alt and title attributes. If you want to add some CSS and
-Javascript magic to your SVG images, then use inline SVG option.
+extension to be uploaded. In the formatter settings you can set the default
+image size and enable alt and title attributes. If you want to add some CSS and
+Javascript magic to your SVG images, then use the inline SVG option.
 
  * For a full description of the module, visit the project page:
    https://www.drupal.org/project/svg_formatter
@@ -32,7 +32,7 @@ REQUIREMENTS
 
 This module requires no modules outside of Drupal core, but please make sure to
 install it via Composer so that library 'enshrined/svg-sanitize' is also
-installed. Otherwise your site may be vulnerable to XSS exploits if you allow
+installed. Otherwise, your site may be vulnerable to XSS exploits if you allow
 users to upload SVG images and use inline SVG output mode.
 
 
