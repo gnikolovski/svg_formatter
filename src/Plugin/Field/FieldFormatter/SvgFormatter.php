@@ -319,7 +319,7 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
               $dom->documentElement->insertBefore($title, $dom->documentElement->firstChild);
               $dom->documentElement->setAttribute('aria-labelledby', $title_id);
             }
-            $svg_data = $dom->saveXML();
+            $svg_data = $dom->saveXML($dom->documentElement);
           }
         }
 
