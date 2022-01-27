@@ -131,7 +131,8 @@ class SvgFormatterTest extends BrowserTestBase {
       // Ignore failed move.
     }
 
-    $source_file = file_save_data(self::SVG_DATA, $destination, FileSystemInterface::EXISTS_REPLACE);
+    $source_file = \Drupal::service('file.repository')
+      ->writeData(self::SVG_DATA, $destination, FileSystemInterface::EXISTS_REPLACE);
 
     return $source_file;
   }
