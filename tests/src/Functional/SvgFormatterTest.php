@@ -33,7 +33,7 @@ class SvgFormatterTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'system',
     'file',
     'media',
@@ -63,7 +63,7 @@ class SvgFormatterTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     // Create bundle and modify form display.
     $this->defaultMediaType = $this->createMediaType('file', ['id' => 'svg', 'label' => 'SVG']);
