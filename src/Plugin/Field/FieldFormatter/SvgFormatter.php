@@ -2,6 +2,7 @@
 
 namespace Drupal\svg_formatter\Plugin\Field\FieldFormatter;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
@@ -317,7 +318,7 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
             }
             if ($this->getSetting('enable_title') && isset($dom->documentElement)) {
               $title = $dom->createElement('title', $attributes['title']);
-              $title_id = $this->fieldName . '__title-' . $delta;
+              $title_id = Html::getUniqueId($this->fieldName . '-title-' . $delta);
               $title->setAttribute('id', $title_id);
               $dom->documentElement->insertBefore($title, $dom->documentElement->firstChild);
               $dom->documentElement->setAttribute('aria-labelledby', $title_id);
