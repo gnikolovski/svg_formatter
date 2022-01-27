@@ -198,7 +198,10 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
     if ($token_module) {
       $form['token_help'] = [
         '#theme' => 'token_tree_link',
-        '#token_types' => [$this->fieldDefinition->getTargetEntityTypeId(), 'file'],
+        '#token_types' => [
+          $this->fieldDefinition->getTargetEntityTypeId(),
+          'file',
+        ],
       ];
     }
 

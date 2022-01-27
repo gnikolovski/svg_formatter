@@ -66,7 +66,10 @@ class SvgFormatterTest extends BrowserTestBase {
   protected function setUp(): void {
     parent::setUp();
     // Create bundle and modify form display.
-    $this->defaultMediaType = $this->createMediaType('file', ['id' => 'svg', 'label' => 'SVG']);
+    $this->defaultMediaType = $this->createMediaType('file', [
+      'id' => 'svg',
+      'label' => 'SVG',
+    ]);
     $this->defaultSourceField = $this->defaultMediaType->getSource()->getSourceFieldDefinition($this->defaultMediaType);
 
     $field_config = FieldConfig::load('media.svg.field_media_file');
@@ -128,7 +131,8 @@ class SvgFormatterTest extends BrowserTestBase {
       // Ignore failed move.
     }
 
-    $source_file = file_save_data(self::SVG_DATA, $destination, FileSystemInterface::EXISTS_REPLACE);
+    $source_file = \Drupal::service('file.repository')
+      ->writeData(self::SVG_DATA, $destination, FileSystemInterface::EXISTS_REPLACE);
 
     return $source_file;
   }
