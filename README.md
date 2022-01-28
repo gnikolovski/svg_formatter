@@ -13,7 +13,7 @@ INTRODUCTION
 
 SVG Formatter module provides support for using SVG images on your website.
 
-The standard image field in Drupal 8 doesn't support SVG images. If you really
+The standard image field in Drupal 9 doesn't support SVG images. If you really
 want to display SVG images on your website then you need another solution. This
 module adds a new formatter for the file field, which allows files with any
 extension to be uploaded. In the formatter settings you can set the default
