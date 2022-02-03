@@ -22,6 +22,6 @@
         "drupal/core": "^8 || ^9"
     },
     "require-dev": {
-       "drupal/token": "1.x-dev"
+       "drupal/token": "1.10"
     }
 }
