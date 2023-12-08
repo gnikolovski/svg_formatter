@@ -251,8 +251,8 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
     $elements = [];
     $attributes = [];
     if ($this->getSetting('apply_dimensions')) {
-      $attributes['width'] = $this->getSetting('width');
-      $attributes['height'] = $this->getSetting('height');
+      $attributes['width'] = (string) $this->getSetting('width');
+      $attributes['height'] = (string) $this->getSetting('height');
     }
 
     foreach ($items as $delta => $item) {
@@ -313,8 +313,12 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
             libxml_use_internal_errors(TRUE);
             $dom->loadXML($svg_file);
             if ($this->getSetting('apply_dimensions') && isset($dom->documentElement)) {
-              $dom->documentElement->setAttribute('height', $attributes['height']);
-              $dom->documentElement->setAttribute('width', $attributes['width']);
+              if (!empty($attributes['height'])) {
+                $dom->documentElement->setAttribute('height', Html::escape($attributes['height']));
+              }
+              if (!empty($attributes['width'])) {
+                $dom->documentElement->setAttribute('width', Html::escape($attributes['width']));
+              }
             }
             if ($this->getSetting('enable_title') && isset($dom->documentElement)) {
               $title = $dom->createElement('title', $attributes['title']);
