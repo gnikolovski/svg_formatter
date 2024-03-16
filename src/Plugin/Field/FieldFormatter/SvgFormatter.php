@@ -320,7 +320,7 @@ class SvgFormatter extends FormatterBase implements ContainerFactoryPluginInterf
                 $dom->documentElement->setAttribute('width', Html::escape($attributes['width']));
               }
             }
-            if ($this->getSetting('enable_title') && isset($dom->documentElement)) {
+            if ($this->getSetting('enable_title') && !empty($attributes['title']) && isset($dom->documentElement)) {
               $title = $dom->createElement('title', $attributes['title']);
               $title_id = Html::getUniqueId($this->fieldName . '-title-' . $delta);
               $title->setAttribute('id', $title_id);
