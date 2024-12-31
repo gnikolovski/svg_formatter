@@ -4,7 +4,6 @@ namespace Drupal\Tests\svg_formatter\Functional;
 
 use Drupal\Core\File\Exception\FileException;
 use Drupal\Core\File\FileExists;
-use Drupal\Core\File\FileSystemInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\BrowserTestBase;
